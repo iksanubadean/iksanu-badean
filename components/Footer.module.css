@@ -1,0 +1,84 @@
+.footer {
+  background: var(--primary-dark);
+  color: var(--white);
+  padding: 5rem 0 2rem;
+  margin-top: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 4rem;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.logoImg {
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+}
+
+.logoText {
+  font-family: var(--font-playfair);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.logoText span {
+  color: var(--secondary);
+}
+
+.desc {
+  opacity: 0.7;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.links h4, .contact h4 {
+  font-size: 1.25rem;
+  color: var(--secondary);
+  margin-bottom: 1.5rem;
+}
+
+.links ul li {
+  margin-bottom: 0.75rem;
+}
+
+.links ul li a {
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.links ul li a:hover {
+  opacity: 1;
+  color: var(--secondary);
+  padding-left: 5px;
+}
+
+.contact p {
+  opacity: 0.7;
+  margin-bottom: 1rem;
+}
+
+.bottom {
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  opacity: 0.5;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}

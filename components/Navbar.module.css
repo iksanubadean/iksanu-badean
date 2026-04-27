@@ -1,0 +1,107 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 1.5rem 0;
+  transition: var(--transition-normal);
+  background: transparent;
+}
+
+.scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 0;
+  box-shadow: var(--shadow-md);
+}
+
+.navbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoImg {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--secondary);
+}
+
+.logoText {
+  font-family: var(--font-playfair);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 1px;
+}
+
+.logoText span {
+  color: var(--secondary-dark);
+}
+
+.scrolled .logoText {
+  color: var(--primary);
+}
+
+.navLinks {
+  display: flex;
+  gap: 2rem;
+}
+
+.navLinks a {
+  font-weight: 500;
+  color: var(--white);
+  transition: var(--transition-fast);
+}
+
+.scrolled .navLinks a {
+  color: var(--foreground);
+}
+
+.navLinks a:hover {
+  color: var(--secondary);
+}
+
+.navActions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.loginBtn {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.scrolled .loginBtn {
+  color: var(--foreground);
+}
+
+.registerBtn {
+  background: var(--secondary);
+  color: var(--primary-dark);
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.registerBtn:hover {
+  background: var(--secondary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+  .navLinks, .navActions {
+    display: none;
+  }
+}
