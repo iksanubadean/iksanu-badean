@@ -1,0 +1,55 @@
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.gridContainerTop {
+  align-items: center;
+}
+
+.gridContainerBottom {
+  align-items: flex-start;
+}
+
+.imagePlaceholder {
+  background-color: var(--gray-200);
+  height: 400px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.imagePlaceholder p {
+  color: var(--gray-400);
+}
+
+.textSection {
+  order: 1;
+}
+
+.imageSection {
+  order: 2;
+}
+
+@media (max-width: 768px) {
+  .gridContainer {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .imagePlaceholder {
+    height: 250px;
+  }
+
+  /* Optional: image on top of text on mobile */
+  .textSection {
+    order: 2;
+  }
+
+  .imageSection {
+    order: 1;
+  }
+}

@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
+import styles from "./Profil.module.css";
 
 export default function ProfilPage() {
   return (
@@ -13,8 +14,8 @@ export default function ProfilPage() {
               title="Profil IKSANU" 
               subtitle="Tentang Organisasi Kami" 
             />
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
-              <div>
+            <div className={`${styles.gridContainer} ${styles.gridContainerTop}`}>
+              <div className={styles.textSection}>
                 <h3 style={{ color: "var(--primary)", marginBottom: "1.5rem", fontSize: "1.8rem" }}>Sejarah & Visi</h3>
                 <p style={{ color: "var(--gray-600)", lineHeight: "1.8", marginBottom: "1.5rem" }}>
                   Ikatan Santri dan Alumni Pondok Pesantren Nurul Huda Badean (IKSANU) didirikan sebagai wadah silaturahmi bagi seluruh santri yang pernah menimba ilmu di PP Nurul Huda Badean.
@@ -23,8 +24,8 @@ export default function ProfilPage() {
                   Visi kami adalah menciptakan jaringan alumni yang kuat, mandiri, dan berkontribusi nyata bagi pengembangan almamater serta memberikan manfaat bagi masyarakat luas berlandaskan nilai-nilai Ahlussunnah wal Jama'ah.
                 </p>
               </div>
-              <div style={{ backgroundColor: "var(--gray-200)", height: "400px", borderRadius: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <p style={{ color: "var(--gray-400)" }}>[ Foto Gedung/Kegiatan ]</p>
+              <div className={`${styles.imagePlaceholder} ${styles.imageSection}`}>
+                <p>[ Foto Gedung/Kegiatan ]</p>
               </div>
             </div>
           </div>
@@ -32,7 +33,7 @@ export default function ProfilPage() {
 
         <section className="section-padding" style={{ backgroundColor: "var(--primary)", color: "var(--white)" }}>
           <div className="container">
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem" }}>
+            <div className={`${styles.gridContainer} ${styles.gridContainerBottom}`}>
               <div>
                 <h3 style={{ color: "var(--secondary)", marginBottom: "1.5rem" }}>Misi Kami</h3>
                 <ul style={{ listStyle: "none", padding: 0 }}>
