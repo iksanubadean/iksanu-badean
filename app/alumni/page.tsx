@@ -29,19 +29,29 @@ export default async function AlumniPage() {
               subtitle="Direktori Anggota IKSANU (Terverifikasi)" 
             />
             
-            <div style={{ marginBottom: "3rem", display: "flex", gap: "1rem" }}>
+            <div style={{ 
+              marginBottom: "3rem", 
+              display: "flex", 
+              gap: "1rem", 
+              flexWrap: "wrap" 
+            }}>
               <input 
                 type="text" 
                 placeholder="Cari nama alumni..." 
                 style={{ 
-                  flex: 1, 
+                  flex: "1 1 300px", 
                   padding: "1rem 1.5rem", 
                   borderRadius: "10px", 
                   border: "1px solid var(--gray-200)",
                   fontSize: "1rem"
                 }} 
               />
-              <select style={{ padding: "1rem", borderRadius: "10px", border: "1px solid var(--gray-200)" }}>
+              <select style={{ 
+                flex: "1 1 200px", 
+                padding: "1rem", 
+                borderRadius: "10px", 
+                border: "1px solid var(--gray-200)" 
+              }}>
                 <option>Semua Tahun Masuk</option>
                 {/* Tahun bisa di-generate dinamis nanti */}
                 <option>2024</option>
@@ -50,7 +60,13 @@ export default async function AlumniPage() {
                 <option>2021</option>
                 <option>2020</option>
               </select>
-              <button className="premium-gradient" style={{ color: "white", padding: "1rem 2rem", borderRadius: "10px", fontWeight: "bold" }}>
+              <button className="premium-gradient" style={{ 
+                flex: "1 1 120px", 
+                color: "white", 
+                padding: "1rem 2rem", 
+                borderRadius: "10px", 
+                fontWeight: "bold" 
+              }}>
                 Cari
               </button>
             </div>
