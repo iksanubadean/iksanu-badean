@@ -3,16 +3,42 @@ import Footer from "@/components/Footer";
 import SectionHeading from "@/components/SectionHeading";
 import { createClient } from "@/utils/supabase/server";
 import { CldImage } from "next-cloudinary";
+import YearPicker from "@/components/YearPicker";
 
-export default async function AlumniPage() {
+export const dynamic = "force-dynamic";
+
+export default async function AlumniPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string; year?: string; page?: string }>;
+}) {
+  const { search, year, page } = await searchParams;
+  const currentPage = parseInt(page || '1');
+  const pageSize = 12;
+  const from = (currentPage - 1) * pageSize;
+  const to = from + pageSize - 1;
+
   const supabase = await createClient();
   
-  // Mengambil data alumni dari Supabase yang sudah diverifikasi
-  const { data: alumniList, error } = await supabase
+  // Membangun query secara dinamis
+  let query = supabase
     .from('profiles')
-    .select('*')
-    .eq('is_verified', true)
-    .order('graduation_year', { ascending: false });
+    .select('*', { count: 'exact' })
+    .eq('is_verified', true);
+
+  if (search) {
+    query = query.ilike('full_name', `%${search}%`);
+  }
+
+  if (year && year !== 'Semua Tahun Masuk') {
+    query = query.eq('graduation_year', parseInt(year));
+  }
+
+  const { data: alumniList, count, error } = await query
+    .order('graduation_year', { ascending: false })
+    .range(from, to);
+
+  const totalPages = Math.ceil((count || 0) / pageSize);
 
   if (error) {
     console.error('Error fetching alumni:', error);
@@ -29,47 +55,36 @@ export default async function AlumniPage() {
               subtitle="Direktori Anggota IKSANU (Terverifikasi)" 
             />
             
-            <div style={{ 
-              marginBottom: "3rem", 
-              display: "flex", 
-              gap: "1rem", 
-              flexWrap: "wrap" 
-            }}>
-              <input 
-                type="text" 
-                placeholder="Cari nama alumni..." 
-                style={{ 
-                  flex: "1 1 300px", 
-                  padding: "1rem 1.5rem", 
-                  borderRadius: "10px", 
-                  border: "1px solid var(--gray-200)",
-                  fontSize: "1rem"
-                }} 
-              />
-              <select style={{ 
-                flex: "1 1 200px", 
-                padding: "1rem", 
-                borderRadius: "10px", 
-                border: "1px solid var(--gray-200)" 
-              }}>
-                <option>Semua Tahun Masuk</option>
-                {/* Tahun bisa di-generate dinamis nanti */}
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
-              </select>
-              <button className="premium-gradient" style={{ 
-                flex: "1 1 120px", 
-                color: "white", 
-                padding: "1rem 2rem", 
-                borderRadius: "10px", 
-                fontWeight: "bold" 
-              }}>
-                Cari
-              </button>
-            </div>
+            {/* Search Input */}
+            <form method="GET" action="/alumni" style={{ marginBottom: "1.5rem" }}>
+              <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                <input 
+                  name="search"
+                  type="text" 
+                  placeholder="Cari nama alumni..." 
+                  defaultValue={search}
+                  style={{ 
+                    flex: "1 1 300px", 
+                    padding: "1rem 1.5rem", 
+                    borderRadius: "15px", 
+                    border: "1px solid var(--gray-200)",
+                    fontSize: "1rem",
+                    boxShadow: "var(--shadow-sm)"
+                  }} 
+                />
+                <button type="submit" className="premium-gradient" style={{ 
+                  padding: "1rem 2.5rem", 
+                  color: "white", 
+                  borderRadius: "15px", 
+                  fontWeight: "bold" 
+                }}>
+                  Cari Nama
+                </button>
+              </div>
+            </form>
+
+            {/* Hierarchical Year Picker */}
+            <YearPicker />
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(350px, 1fr))", gap: "2rem" }}>
               {alumniList && alumniList.length > 0 ? (
@@ -134,6 +149,64 @@ export default async function AlumniPage() {
                 </div>
               )}
             </div>
+
+            {/* Pagination UI */}
+            {totalPages > 1 && (
+              <div style={{ 
+                marginTop: "4rem", 
+                display: "flex", 
+                justifyContent: "center", 
+                alignItems: "center", 
+                gap: "0.5rem",
+                flexWrap: "wrap" 
+              }}>
+                {currentPage > 1 && (
+                  <a 
+                    href={`/alumni?search=${search || ''}&year=${year || ''}&page=${currentPage - 1}`}
+                    style={{ padding: "0.75rem 1.25rem", borderRadius: "12px", background: "white", border: "1px solid var(--gray-200)", fontWeight: 600, color: "var(--gray-700)", textDecoration: "none" }}
+                  >
+                    &larr; Prev
+                  </a>
+                )}
+                
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
+                  // Hanya tampilkan beberapa nomor halaman jika terlalu banyak
+                  if (totalPages > 5 && Math.abs(p - currentPage) > 2) return null;
+                  
+                  return (
+                    <a 
+                      key={p}
+                      href={`/alumni?search=${search || ''}&year=${year || ''}&page=${p}`}
+                      style={{ 
+                        width: "45px", 
+                        height: "45px", 
+                        display: "flex", 
+                        alignItems: "center", 
+                        justifyContent: "center", 
+                        borderRadius: "12px", 
+                        background: currentPage === p ? "var(--primary)" : "white", 
+                        color: currentPage === p ? "white" : "var(--gray-700)", 
+                        border: "1px solid var(--gray-200)", 
+                        fontWeight: "bold",
+                        textDecoration: "none",
+                        transition: "all 0.2s"
+                      }}
+                    >
+                      {p}
+                    </a>
+                  );
+                })}
+
+                {currentPage < totalPages && (
+                  <a 
+                    href={`/alumni?search=${search || ''}&year=${year || ''}&page=${currentPage + 1}`}
+                    style={{ padding: "0.75rem 1.25rem", borderRadius: "12px", background: "white", border: "1px solid var(--gray-200)", fontWeight: 600, color: "var(--gray-700)", textDecoration: "none" }}
+                  >
+                    Next &rarr;
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </section>
       </div>

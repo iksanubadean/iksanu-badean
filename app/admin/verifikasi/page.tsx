@@ -104,63 +104,104 @@ export default function VerifikasiAlumniPage() {
           <p style={{ color: 'var(--gray-400)' }}>Semua data pendaftaran sudah diproses.</p>
         </div>
       ) : (
-        <div className={styles.card} style={{ padding: 0, overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-            <thead style={{ backgroundColor: 'var(--gray-50)', borderBottom: '1px solid var(--gray-100)' }}>
-              <tr>
-                <th style={{ padding: '1.2rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-600)' }}>ALUMNI</th>
-                <th style={{ padding: '1.2rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-600)' }}>ANGKATAN</th>
-                <th style={{ padding: '1.2rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-600)' }}>INFO KONTAK</th>
-                <th style={{ padding: '1.2rem', fontSize: '0.85rem', fontWeight: 700, color: 'var(--gray-600)', textAlign: 'right' }}>AKSI</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pendingAlumni.map((alumni) => (
-                <tr key={alumni.id} style={{ borderBottom: '1px solid var(--gray-50)' }}>
-                  <td style={{ padding: '1.2rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                      <div style={{ width: '45px', height: '45px', borderRadius: '12px', overflow: 'hidden', backgroundColor: 'var(--gray-100)' }}>
-                        {alumni.avatar_url ? (
-                          <img src={alumni.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                        ) : (
-                          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>👤</div>
-                        )}
-                      </div>
-                      <div>
-                        <p style={{ fontWeight: 700, fontSize: '0.95rem' }}>{alumni.full_name}</p>
-                        <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{alumni.occupation || 'Belum mengisi pekerjaan'}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td style={{ padding: '1.2rem', fontSize: '0.9rem', color: 'var(--primary)', fontWeight: 600 }}>
-                    {alumni.graduation_year}
-                  </td>
-                  <td style={{ padding: '1.2rem' }}>
-                    <p style={{ fontSize: '0.85rem', fontWeight: 600 }}>{alumni.phone_number || '-'}</p>
-                    <p style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{alumni.address || '-'}</p>
-                  </td>
-                  <td style={{ padding: '1.2rem', textAlign: 'right' }}>
-                    <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'flex-end' }}>
-                      <button 
-                        onClick={() => handleApprove(alumni)}
-                        className={styles.button} 
-                        style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', backgroundColor: '#ecfdf5', color: '#059669', border: '1px solid #10b981' }}
-                      >
-                        Setujui
-                      </button>
-                      <button 
-                        onClick={() => handleReject(alumni.id)}
-                        className={styles.button} 
-                        style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', backgroundColor: '#fef2f2', color: '#dc2626', border: '1px solid #ef4444' }}
-                      >
-                        Tolak
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', 
+          gap: '1.5rem' 
+        }}>
+          {pendingAlumni.map((alumni) => (
+            <div key={alumni.id} className={styles.card} style={{ 
+              display: 'flex', 
+              flexDirection: 'column',
+              padding: '1.5rem',
+              height: '100%',
+              border: '1px solid var(--gray-100)'
+            }}>
+              {/* Card Header: Avatar & Basic Info */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
+                <div style={{ 
+                  width: '60px', 
+                  height: '60px', 
+                  borderRadius: '15px', 
+                  overflow: 'hidden', 
+                  backgroundColor: 'var(--gray-50)',
+                  flexShrink: 0,
+                  border: '1px solid var(--gray-100)'
+                }}>
+                  {alumni.avatar_url ? (
+                    <img src={alumni.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>👤</div>
+                  )}
+                </div>
+                <div>
+                  <h3 style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--primary-dark)', margin: 0 }}>{alumni.full_name}</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--primary)', fontWeight: 700, margin: '2px 0 0' }}>Angkatan {alumni.entry_year}</p>
+                </div>
+              </div>
+
+              {/* Card Content: Details */}
+              <div style={{ flex: 1, marginBottom: '2rem' }}>
+                <div style={{ marginBottom: '1rem' }}>
+                  <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>📞 No. WhatsApp</p>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600 }}>{alumni.phone_number || '-'}</p>
+                </div>
+                <div style={{ marginBottom: '1rem' }}>
+                  <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>💼 Pekerjaan</p>
+                  <p style={{ fontSize: '0.9rem', fontWeight: 600 }}>{alumni.occupation || '-'}</p>
+                </div>
+                <div style={{ marginBottom: '1rem' }}>
+                  <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>📍 Alamat</p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--gray-600)', lineHeight: 1.5 }}>{alumni.address || '-'}</p>
+                </div>
+                {alumni.bio && (
+                  <div>
+                    <p style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--gray-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>📝 Bio Singkat</p>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--gray-500)', fontStyle: 'italic', lineHeight: 1.4 }}>"{alumni.bio}"</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Card Actions */}
+              <div style={{ display: 'flex', gap: '1rem', marginTop: 'auto' }}>
+                <button 
+                  onClick={() => handleReject(alumni.id)}
+                  style={{ 
+                    flex: 1,
+                    padding: '0.8rem',
+                    borderRadius: '12px',
+                    backgroundColor: '#fff',
+                    color: '#dc2626',
+                    border: '2px solid #fee2e2',
+                    fontWeight: 700,
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Tolak
+                </button>
+                <button 
+                  onClick={() => handleApprove(alumni)}
+                  style={{ 
+                    flex: 2,
+                    padding: '0.8rem',
+                    borderRadius: '12px',
+                    backgroundColor: 'var(--primary)',
+                    color: 'white',
+                    border: 'none',
+                    fontWeight: 700,
+                    fontSize: '0.9rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(6, 78, 59, 0.15)',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  Setujui
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
