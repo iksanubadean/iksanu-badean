@@ -16,7 +16,7 @@ export default function Hero() {
             Wadah kolaborasi, silaturahmi, dan dedikasi untuk almamater tercinta.
           </p>
           <div className={styles.cta}>
-            <Link href="/register" className={styles.primaryBtn}>
+            <Link href="/gabung" className={styles.primaryBtn}>
               Bergabung Sekarang
             </Link>
             <Link href="/profil" className={styles.secondaryBtn}>

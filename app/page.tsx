@@ -17,7 +17,7 @@ export default function Home() {
           <p style={{ color: "var(--gray-600)", marginBottom: "2rem", maxWidth: "600px", marginInline: "auto" }}>
             Jadilah bagian dari jaringan alumni yang kuat dan terus berkontribusi untuk masa depan pesantren yang lebih baik.
           </p>
-          <a href="/register" className="premium-gradient" style={{ 
+          <a href="/gabung" className="premium-gradient" style={{ 
             color: "var(--white)", 
             padding: "1rem 2.5rem", 
             borderRadius: "50px", 

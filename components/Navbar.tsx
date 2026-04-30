@@ -53,7 +53,7 @@ export default function Navbar() {
 
             <div className={styles.navActions}>
               <Link href="/login" className={styles.loginBtn} onClick={closeMobileMenu}>Masuk</Link>
-              <Link href="/register" className={styles.registerBtn} onClick={closeMobileMenu}>Gabung</Link>
+              <Link href="/gabung" className={styles.registerBtn} onClick={closeMobileMenu}>Gabung</Link>
             </div>
           </div>
 

@@ -7,10 +7,11 @@ import { CldImage } from "next-cloudinary";
 export default async function AlumniPage() {
   const supabase = await createClient();
   
-  // Mengambil data alumni dari Supabase
+  // Mengambil data alumni dari Supabase yang sudah diverifikasi
   const { data: alumniList, error } = await supabase
     .from('profiles')
     .select('*')
+    .eq('is_verified', true)
     .order('graduation_year', { ascending: false });
 
   if (error) {
@@ -25,7 +26,7 @@ export default async function AlumniPage() {
           <div className="container">
             <SectionHeading 
               title="Data Alumni" 
-              subtitle="Direktori Anggota IKSANU" 
+              subtitle="Direktori Anggota IKSANU (Terverifikasi)" 
             />
             
             <div style={{ marginBottom: "3rem", display: "flex", gap: "1rem" }}>
@@ -41,7 +42,8 @@ export default async function AlumniPage() {
                 }} 
               />
               <select style={{ padding: "1rem", borderRadius: "10px", border: "1px solid var(--gray-200)" }}>
-                <option>Semua Angkatan</option>
+                <option>Semua Tahun Masuk</option>
+                {/* Tahun bisa di-generate dinamis nanti */}
                 <option>2024</option>
                 <option>2023</option>
                 <option>2022</option>
@@ -93,7 +95,7 @@ export default async function AlumniPage() {
                         {alumni.full_name}
                       </h4>
                       <p style={{ fontSize: "0.85rem", color: "var(--gray-500)", marginBottom: "0.75rem" }}>
-                        Angkatan {alumni.graduation_year}
+                        Tahun Masuk: {alumni.graduation_year}
                       </p>
                       <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
                         {alumni.address && (

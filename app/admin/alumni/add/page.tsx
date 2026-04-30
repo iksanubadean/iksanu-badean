@@ -13,7 +13,7 @@ export default function AddAlumniPage() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     full_name: '',
-    graduation_year: '',
+    entry_year: '', // Kita ganti penamaan di state agar konsisten dengan maksud 'Tahun Masuk'
     occupation: '',
     phone_number: '',
     address: '',
@@ -39,9 +39,9 @@ export default function AddAlumniPage() {
       const { error } = await supabase
         .from('profiles')
         .insert([{
-          id: crypto.randomUUID(), // Generate UUID manual untuk data manual admin
+          id: crypto.randomUUID(), 
           full_name: formData.full_name,
-          graduation_year: parseInt(formData.graduation_year),
+          graduation_year: parseInt(formData.entry_year), // Tetap simpan di kolom graduation_year
           occupation: formData.occupation,
           phone_number: formData.phone_number,
           address: formData.address,
@@ -126,14 +126,14 @@ export default function AddAlumniPage() {
           </div>
 
           <div className={styles.formGroup}>
-            <label className={styles.label}>Tahun Lulus (Angkatan)</label>
+            <label className={styles.label}>Tahun Masuk (Angkatan)</label>
             <input 
               type="number" 
               required
               className={styles.input} 
               placeholder="Contoh: 2015"
-              value={formData.graduation_year}
-              onChange={(e) => setFormData({...formData, graduation_year: e.target.value})}
+              value={formData.entry_year}
+              onChange={(e) => setFormData({...formData, entry_year: e.target.value})}
             />
           </div>
 

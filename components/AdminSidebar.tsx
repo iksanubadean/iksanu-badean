@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from '@/app/admin/Admin.module.css';
+import { createClient } from '@/utils/supabase/client';
 
 export default function AdminSidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,9 +12,25 @@ export default function AdminSidebar() {
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
+  const [pendingCount, setPendingCount] = useState(0);
+  const supabase = createClient();
+
+  useEffect(() => {
+    async function fetchPendingCount() {
+      const { count } = await supabase
+        .from('alumni_submissions')
+        .select('*', { count: 'exact', head: true });
+      setPendingCount(count || 0);
+    }
+    fetchPendingCount();
+    
+    // Optional: Realtime subscription could be added here
+  }, []);
+
   const navLinks = [
     { name: 'Dashboard', href: '/admin', icon: '📊' },
     { name: 'Input Alumni', href: '/admin/alumni/add', icon: '➕' },
+    { name: 'Verifikasi', href: '/admin/verifikasi', icon: '✅', badge: pendingCount },
     { name: 'Direktori', href: '/admin/alumni', icon: '👥' },
     { name: 'Berita', href: '/admin/berita', icon: '📰' },
   ];
@@ -67,6 +84,19 @@ export default function AdminSidebar() {
             >
                <span className={styles.navIcon}>{link.icon}</span>
                <span>{link.name}</span>
+               {link.badge && link.badge > 0 ? (
+                 <span style={{ 
+                   marginLeft: 'auto', 
+                   background: '#ef4444', 
+                   color: 'white', 
+                   fontSize: '0.7rem', 
+                   padding: '2px 8px', 
+                   borderRadius: '50px',
+                   fontWeight: 700 
+                 }}>
+                   {link.badge}
+                 </span>
+               ) : null}
             </Link>
           ))}
           
